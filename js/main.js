@@ -17,27 +17,56 @@ async function init() {
   // Show loading state on cards
   showCardsLoading();
 
-  // Initialise Leaflet map
-  window.OMS.initMap('map');
+  // Initialise Leaflet map — isolated so a map failure can't block data loading
+  try {
+    window.OMS.initMap('map');
+  } catch (error) {
+    console.error('Map failed to initialise:', error);
+    showMapError();
+  }
 
-  // Initialise SPA router
-  window.OMS.initRouter();
+  // Initialise SPA router — isolated for the same reason
+  try {
+    window.OMS.initRouter();
+  } catch (error) {
+    console.error('Router failed to initialise:', error);
+  }
 
-  // Fetch all locations from Airtable
+  // Fetch all locations from Airtable (via /api proxy) — this always resolves,
+  // falling back to built-in sample data internally if the API is unreachable
   allLocations = await window.OMS.fetchAllLocations();
   filteredLocations = [...allLocations];
 
   // Populate filter dropdowns from real data
   populateFilters(allLocations);
 
-  // Render featured cards (Tier 1 first, top 6)
+  // Render featured cards (Tier 1 first, top 6) — this is the priority:
+  // cards must render even if the map above failed
   renderFeaturedCards(window.OMS.getFeaturedLocations(allLocations, 6));
 
-  // Render all pins on map
-  window.OMS.renderMapPins(allLocations);
+  // Render all pins on map (only if map initialised successfully)
+  try {
+    window.OMS.renderMapPins(allLocations);
+  } catch (error) {
+    console.error('Failed to render map pins:', error);
+  }
 
   // Wire up search/filter inputs
   wireUpFilters();
+}
+
+/**
+ * Show a friendly error + retry button in the map container if Leaflet fails
+ */
+function showMapError() {
+  const mapEl = document.getElementById('map');
+  if (!mapEl) return;
+  mapEl.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+      height:100%;color:#999;text-align:center;padding:20px;gap:12px;">
+      <p>The map couldn't load right now.</p>
+      <button onclick="location.reload()" class="btn btn-secondary">Retry</button>
+    </div>`;
 }
 
 /**
