@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurMovieScene - Discover Harry Potter Filming Locations</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-color: #1a3a52;
+            --secondary-color: #2c5aa0;
+            --accent-color: #f39c12;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --bg-light: #fafafa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+        }
+        
+        header .tagline {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* SEARCH SECTION */
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem auto;
+            max-width: 700px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .search-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        input[type="search"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="search"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+        
+        /* MAP SECTION */
+        .map-section {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+            position: relative;
+        }
+        
+        .map-placeholder {
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .map-placeholder p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .map-placeholder small {
+            display: block;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+        
+        /* SECTION HEADERS */
+        section {
+            margin: 3rem 0;
+        }
+        
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        /* LOCATIONS GRID */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .location-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .location-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .location-card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .location-card-content {
+            padding: 1.5rem;
+        }
+        
+        .location-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .location-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .location-card-region {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .location-card-difficulty {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .location-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .location-card-cta {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .location-card-cta:hover {
+            opacity: 0.8;
+        }
+        
+        /* INSTAGRAM SECTION */
+        .instagram-section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+        
+        .instagram-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .instagram-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .instagram-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+        
+        .instagram-item {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            text-align: center;
+            padding: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .instagram-item:hover {
+            transform: scale(1.05);
+        }
+        
+        /* CTA SECTION */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        .cta-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .cta-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .cta-form button {
+            padding: 0.75rem 2rem;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            min-width: 150px;
+        }
+        
+        .cta-form button:hover {
+            transform: scale(1.02);
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #2c2c2c;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: white;
+        }
+        
+        .footer-divider {
+            margin: 1rem 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-form {
+                flex-direction: column;
+            }
+            
+            .cta-form input,
+            .cta-form button {
+                width: 100%;
+            }
+        }
+        
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>🎬 OurMovieScene</h1>
+        <p>Discover Harry Potter Filming Locations Across the UK</p>
+        <p class="tagline">Fan-driven guides to iconic scenes • Ad-free • Community-powered</p>
+    </header>
+    
+    <div class="container">
+        <!-- SEARCH SECTION -->
+        <div class="search-section">
+            <h3>Find a Location</h3>
+            <div class="search-grid">
+                <input type="search" placeholder="Search location name...">
+                <select>
+                    <option>All Regions</option>
+                    <option>London</option>
+                    <option>Surrey</option>
+                    <option>Oxford</option>
+                    <option>Northumberland</option>
+                </select>
+                <select>
+                    <option>All Difficulty Levels</option>
+                    <option>Easy (★★★)</option>
+                    <option>Medium (★★★★)</option>
+                    <option>Hard (★★★★★)</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- MAP SECTION -->
+        <section>
+            <h2>All Locations on Map</h2>
+            <div class="map-section">
+                <div class="map-placeholder">
+                    <p>📍 Interactive Map with All Locations</p>
+                    <small>30 verified HP filming locations across the UK</small>
+                    <small style="margin-top: 0.75rem;">Click any pin to view location details</small>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FEATURED LOCATIONS -->
+        <section>
+            <h2>Featured Locations</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                Start with these iconic must-visit locations
+            </p>
+            
+            <div class="locations-grid">
+                <!-- Card 1 -->
+                <div class="location-card">
+                    <div class="location-card-image">King's Cross Station</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">King's Cross Station</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 London</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            Platform 9¾ - the iconic departure point. Official photo ops available. One of the most recognizable locations from the entire series.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="location-card">
+                    <div class="location-card-image">Leadenhall Market</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">Leadenhall Market</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 London</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            Diagon Alley exterior. Victorian architecture almost unchanged since filming. Perfect for photography and shopping.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="location-card">
+                    <div class="location-card-image">4 Privet Drive</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">4 Privet Drive</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 Surrey</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            The Dursley house exterior. Opening scene of the entire series. Residential area but accessible from street.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="location-card">
+                    <div class="location-card-image">Gringotts Bank</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">Gringotts Bank (Australia House)</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 London</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            The facade of the wizarding bank. Elegant building with great photo opportunities. Public building accessible.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+                
+                <!-- Card 5 -->
+                <div class="location-card">
+                    <div class="location-card-image">Millennium Bridge</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">Millennium Bridge</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 London</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            Famous bridge crossing scene. Beautiful views of Thames. Free to walk across, accessible 24/7.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+                
+                <!-- Card 6 -->
+                <div class="location-card">
+                    <div class="location-card-image">Piccadilly Circus</div>
+                    <div class="location-card-content">
+                        <div class="location-card-title">Piccadilly Circus</div>
+                        <div class="location-card-meta">
+                            <span class="location-card-region">📍 London</span>
+                            <span class="location-card-difficulty">★★★ Easy</span>
+                        </div>
+                        <div class="location-card-desc">
+                            Central London landmark. Walking scenes through busy streets. Perfect for modern Harry Potter mashup photos.
+                        </div>
+                        <a href="#" class="location-card-cta">View Details →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- INSTAGRAM SECTION -->
+        <section>
+            <h2>#OurMovieScene Community</h2>
+            <div class="instagram-section">
+                <h3>Recent Visitor Photos</h3>
+                <p>Share your visit and inspire other fans to explore these magical locations</p>
+                <div class="instagram-feed">
+                    <div class="instagram-item">👥 Fan Photo</div>
+                    <div class="instagram-item">📸 Fan Photo</div>
+                    <div class="instagram-item">🎬 Fan Photo</div>
+                    <div class="instagram-item">✨ Fan Photo</div>
+                    <div class="instagram-item">🏰 Fan Photo</div>
+                    <div class="instagram-item">📍 Fan Photo</div>
+                    <div class="instagram-item">🪄 Fan Photo</div>
+                    <div class="instagram-item">🎥 Fan Photo</div>
+                    <div class="instagram-item">🌟 Fan Photo</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA SECTION -->
+        <div class="cta-section">
+            <h3>Join Our Community</h3>
+            <p>Be the first to know about new locations, insider tips, and community highlights</p>
+            <div class="cta-form">
+                <input type="email" placeholder="Enter your email address...">
+                <button type="submit">Subscribe</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 OurMovieScene • Ad-free, community-driven location guides</p>
+        <div class="footer-divider"></div>
+        <p>
+            <a href="#">About</a> •
+            <a href="#">How It Works</a> •
+            <a href="#">Contribute Photos</a> •
+            <a href="#">Contact</a> •
+            <a href="#">Twitter</a> •
+            <a href="#">Instagram</a>
+        </p>
+    </footer>
+</body>
+</html>
