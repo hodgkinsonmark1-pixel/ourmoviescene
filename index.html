@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OurMovieScene — Discover Harry Potter Filming Locations</title>
+  <meta name="description" content="Discover 30 verified Harry Potter UK filming locations. Interactive map, visitor tips, and fan-curated guides. Ad-free, community-driven." />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- OurMovieScene styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-15110026743"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-15110026743');
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>🎬 OurMovieScene</h1>
+    <p>Discover Harry Potter Filming Locations Across the UK</p>
+    <p class="tagline">Fan-driven guides &bull; Ad-free &bull; Community-powered</p>
+  </header>
+
+  <!-- HOMEPAGE CONTENT (hidden when detail page is shown) -->
+  <div id="homepage-content">
+
+    <div class="container">
+
+      <!-- SEARCH + FILTERS -->
+      <div class="search-box">
+        <h3>Find a Location</h3>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search by name, scene, character…"
+          autocomplete="off"
+          aria-label="Search locations"
+        />
+        <select id="filter-region" aria-label="Filter by region">
+          <option value="">All Regions</option>
+        </select>
+        <select id="filter-difficulty" aria-label="Filter by difficulty">
+          <option value="">All Difficulty Levels</option>
+        </select>
+        <span id="results-count"></span>
+      </div>
+
+      <!-- MAP -->
+      <section aria-label="Location map">
+        <h2>All Locations on Map</h2>
+        <div id="map" role="application" aria-label="Interactive map of Harry Potter filming locations"></div>
+      </section>
+
+      <!-- FEATURED LOCATIONS -->
+      <section aria-label="Featured locations">
+        <h2>Featured Locations</h2>
+        <div class="locations-grid" id="locations-grid">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </section>
+
+      <!-- INSTAGRAM / COMMUNITY -->
+      <section aria-label="Community photos">
+        <h2>#OurMovieScene Community</h2>
+        <div class="instagram-section">
+          <p>Share your location visits with <strong>#OurMovieScene</strong> and see them featured here</p>
+          <div class="instagram-grid">
+            <!-- Placeholder until EmbedSocial integration (Week 4) -->
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+            <div class="instagram-item">📸 Fan Photo</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EMAIL CTA -->
+      <div class="cta-section" role="complementary" aria-label="Join our community">
+        <h3>Join Our Community</h3>
+        <p>Be the first to know about new locations, insider tips and community features</p>
+        <div class="cta-form">
+          <input
+            type="email"
+            id="cta-email"
+            placeholder="Enter your email…"
+            aria-label="Email address"
+            autocomplete="email"
+          />
+          <button type="button" onclick="handleEmailSignup()">Subscribe</button>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+
+  </div><!-- /#homepage-content -->
+
+  <!-- DETAIL PAGE (SPA — shown when hash route matches) -->
+  <div id="detail-page">
+    <!-- Populated dynamically by router.js -->
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 OurMovieScene &bull; Ad-free, community-driven location guides</p>
+    <p style="margin-top: 12px;">
+      <a href="#">About</a> &bull;
+      <a href="#">How It Works</a> &bull;
+      <a href="#">Contact</a> &bull;
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+    </p>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2/Rx4=" crossorigin=""></script>
+
+  <!-- OurMovieScene modules (order matters) -->
+  <script src="js/airtable.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Email signup handler (Week 4: will connect to Mailchimp API)
+    function handleEmailSignup() {
+      const input = document.getElementById('cta-email');
+      const email = input ? input.value.trim() : '';
+
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // Week 4: Replace with Mailchimp API POST
+      console.log('Email signup:', email);
+
+      // Placeholder confirmation
+      input.value = '';
+      const btn = document.querySelector('.cta-form button');
+      if (btn) {
+        btn.textContent = '✓ Subscribed!';
+        btn.style.background = '#e8f5e9';
+        btn.style.color = '#2e7d32';
+        setTimeout(() => {
+          btn.textContent = 'Subscribe';
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 3000);
+      }
+
+      // Track GA4 event
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'email_signup', { source: 'homepage_cta' });
+      }
+    }
+  </script>
+
+</body>
+</html>
