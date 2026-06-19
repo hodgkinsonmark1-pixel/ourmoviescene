@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — OurMovieScene</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .not-found {
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-xl) var(--space-sm);
+    }
+
+    .not-found-inner { max-width: 560px; }
+
+    .not-found-emoji {
+      font-size: 5rem;
+      margin-bottom: var(--space-md);
+      display: block;
+    }
+
+    .not-found h1 {
+      font-size: var(--text-h2);
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .not-found p {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-lg);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .not-found-actions {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .not-found-suggestions {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .not-found-suggestions p {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      margin-bottom: var(--space-sm);
+    }
+
+    .suggestion-links {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .suggestion-links a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      font-weight: 600;
+    }
+
+    .suggestion-links a:hover { text-decoration: underline; }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-15110026743"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-15110026743');
+  </script>
+</head>
+<body>
+
+  <!-- STICKY HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="OurMovieScene home">🎬 OurMovieScene</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <div class="nav-links" style="display:flex;gap:24px;">
+          <a href="map.html">Explore</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/#community">Community</a>
+        </div>
+        <a href="/#signup" class="nav-cta">Join Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="not-found">
+      <div class="not-found-inner">
+        <span class="not-found-emoji" aria-hidden="true">🗺️</span>
+        <h1>This Location Doesn't Exist</h1>
+        <p>
+          Even Harry couldn't find Platform 9¾ the first time.
+          The page you're looking for has moved, been removed, or
+          the URL might have a typo in it.
+        </p>
+        <div class="not-found-actions">
+          <a href="/" class="btn btn-primary">Go Home</a>
+          <a href="map.html" class="btn btn-secondary">Explore the Map</a>
+        </div>
+
+        <div class="not-found-suggestions">
+          <p>Or try one of these popular locations:</p>
+          <div class="suggestion-links">
+            <a href="/#/location/kings-cross">King's Cross Station</a>
+            <a href="/#/location/leadenhall">Leadenhall Market</a>
+            <a href="/#/location/alnwick">Alnwick Castle</a>
+            <a href="map.html">All 30 Locations →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <p>&copy; 2026 OurMovieScene &bull; <a href="/" style="color:#888;">Home</a> &bull; <a href="map.html" style="color:#888;">Explore</a> &bull; <a href="/#signup" style="color:#888;">Join Waitlist</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

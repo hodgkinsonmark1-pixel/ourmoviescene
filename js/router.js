@@ -8,11 +8,22 @@
 window.OMS = window.OMS || {};
 
 /**
- * Navigate to location detail page
+ * Navigate to location detail page.
+ * Works from any page — if not on index.html, redirects there with the hash.
  */
 window.OMS.navigateToDetail = function(locationId) {
   window.OMS.closeModal && window.OMS.closeModal();
-  window.location.hash = `/location/${locationId}`;
+
+  const onHomepage = window.location.pathname === '/' ||
+    window.location.pathname === '/index.html' ||
+    window.location.pathname.endsWith('/');
+
+  if (onHomepage) {
+    window.location.hash = `/location/${locationId}`;
+  } else {
+    // Navigate to homepage with the location hash — router picks it up on load
+    window.location.href = `/#/location/${locationId}`;
+  }
 };
 
 /**
