@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OurMovieScene — Discover Harry Potter Filming Locations</title>
-  <meta name="description" content="Discover 30 verified Harry Potter UK filming locations. Interactive map, visitor tips, and fan-curated guides. Ad-free, community-driven." />
+  <meta name="description" content="Discover 30 verified Harry Potter UK filming locations. Interactive map, visitor tips, fan-curated guides. Ad-free, community-driven." />
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -24,20 +24,43 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <h1>🎬 OurMovieScene</h1>
-    <p>Discover Harry Potter Filming Locations Across the UK</p>
-    <p class="tagline">Fan-driven guides &bull; Ad-free &bull; Community-powered</p>
+  <!-- ===== STICKY HEADER ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="OurMovieScene home">
+        🎬 OurMovieScene
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <div class="nav-links" style="display:flex;gap:24px;">
+          <a href="#map-section">Explore</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#community">Community</a>
+        </div>
+        <a href="#signup" class="nav-cta">Join Waitlist</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- HOMEPAGE CONTENT (hidden when detail page is shown) -->
+  <!-- ===== HOMEPAGE CONTENT ===== -->
   <div id="homepage-content">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="container">
+        <h1>Discover Real Harry Potter Filming Locations</h1>
+        <p class="hero-sub">Find the exact UK locations where your favourite scenes were filmed — with verified guides, visitor tips, and interactive maps.</p>
+        <div class="hero-actions">
+          <a href="#map-section" class="btn btn-accent">Explore the Map</a>
+          <a href="#featured" class="btn btn-ghost">Browse Locations</a>
+        </div>
+        <p class="hero-tagline">Fan-driven guides &bull; Ad-free &bull; Community-powered &bull; 30 verified locations</p>
+      </div>
+    </section>
 
     <div class="container">
 
       <!-- SEARCH + FILTERS -->
-      <div class="search-box">
+      <div class="search-box" role="search" aria-label="Find a location">
         <h3>Find a Location</h3>
         <input
           type="search"
@@ -52,30 +75,57 @@
         <select id="filter-difficulty" aria-label="Filter by difficulty">
           <option value="">All Difficulty Levels</option>
         </select>
-        <span id="results-count"></span>
+        <span id="results-count" role="status" aria-live="polite"></span>
       </div>
 
       <!-- MAP -->
-      <section aria-label="Location map">
+      <section id="map-section" aria-label="Location map">
         <h2>All Locations on Map</h2>
         <div id="map" role="application" aria-label="Interactive map of Harry Potter filming locations"></div>
       </section>
 
       <!-- FEATURED LOCATIONS -->
-      <section aria-label="Featured locations">
+      <section id="featured" aria-label="Featured locations">
         <h2>Featured Locations</h2>
         <div class="locations-grid" id="locations-grid">
           <!-- Populated dynamically by main.js -->
         </div>
       </section>
 
+    </div><!-- /.container -->
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how-it-works" aria-label="How it works">
+      <div class="container">
+        <h2>How It Works</h2>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-number" aria-hidden="true">1</div>
+            <h3>Find a Location</h3>
+            <p>Browse 30 verified Harry Potter filming locations on our interactive UK map. Filter by region, difficulty, or your favourite characters.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-step-number" aria-hidden="true">2</div>
+            <h3>Get the Details</h3>
+            <p>Each location has a fan-curated guide: scene descriptions, visitor tips, photography notes, and everything you need to plan your visit.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-step-number" aria-hidden="true">3</div>
+            <h3>Visit &amp; Share</h3>
+            <p>Make the trip, recreate the scene, and share your photos with the community. Tag <strong>#OurMovieScene</strong> to be featured.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+
       <!-- INSTAGRAM / COMMUNITY -->
-      <section aria-label="Community photos">
+      <section id="community" aria-label="Community photos">
         <h2>#OurMovieScene Community</h2>
         <div class="instagram-section">
           <p>Share your location visits with <strong>#OurMovieScene</strong> and see them featured here</p>
-          <div class="instagram-grid">
-            <!-- Placeholder until EmbedSocial integration (Week 4) -->
+          <div class="instagram-grid" aria-label="Community photos">
             <div class="instagram-item">📸 Fan Photo</div>
             <div class="instagram-item">📸 Fan Photo</div>
             <div class="instagram-item">📸 Fan Photo</div>
@@ -90,19 +140,21 @@
       </section>
 
       <!-- EMAIL CTA -->
-      <div class="cta-section" role="complementary" aria-label="Join our community">
-        <h3>Join Our Community</h3>
-        <p>Be the first to know about new locations, insider tips and community features</p>
+      <div class="cta-section" id="signup" role="complementary" aria-label="Join our community">
+        <h3>Early Access</h3>
+        <p>Be the first to know about new locations, insider tips, and community features</p>
         <div class="cta-form">
+          <label for="cta-email" class="sr-only">Email address</label>
           <input
             type="email"
             id="cta-email"
-            placeholder="Enter your email…"
-            aria-label="Email address"
+            placeholder="your@email.com"
             autocomplete="email"
+            aria-label="Email address"
           />
-          <button type="button" onclick="handleEmailSignup()">Subscribe</button>
+          <button type="button" onclick="handleEmailSignup()">Join Waitlist</button>
         </div>
+        <p class="cta-trust">No spam. Just monthly updates on new locations.</p>
       </div>
 
     </div><!-- /.container -->
@@ -110,19 +162,51 @@
   </div><!-- /#homepage-content -->
 
   <!-- DETAIL PAGE (SPA — shown when hash route matches) -->
-  <div id="detail-page">
+  <div id="detail-page" aria-live="polite">
     <!-- Populated dynamically by router.js -->
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2026 OurMovieScene &bull; Ad-free, community-driven location guides</p>
-    <p style="margin-top: 12px;">
-      <a href="#">About</a> &bull;
-      <a href="#">How It Works</a> &bull;
-      <a href="#">Contact</a> &bull;
-      <a href="#" target="_blank" rel="noopener">Instagram</a>
-    </p>
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="site-logo">🎬 OurMovieScene</a>
+          <p>The verified, ad-free, community-driven guide to Harry Potter UK filming locations. Built by fans, for fans.</p>
+          <span class="footer-badge">Ad-free &bull; Always</span>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#map-section">Explore Map</a></li>
+            <li><a href="#featured">Locations</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#signup">Join Waitlist</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#community">#OurMovieScene</a></li>
+            <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="#" target="_blank" rel="noopener">Twitter / X</a></li>
+            <li><a href="#">Submit a Location</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OurMovieScene &bull; Ad-free, community-driven location guides &bull; Not affiliated with Warner Bros. or the Harry Potter franchise</p>
+      </div>
+    </div>
   </footer>
 
   <!-- Leaflet JS -->
@@ -138,34 +222,38 @@
   <script src="js/main.js"></script>
 
   <script>
-    // Email signup handler (Week 4: will connect to Mailchimp API)
+    // Screen-reader only utility class
+    const style = document.createElement('style');
+    style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}';
+    document.head.appendChild(style);
+
     function handleEmailSignup() {
       const input = document.getElementById('cta-email');
       const email = input ? input.value.trim() : '';
 
       if (!email || !email.includes('@')) {
-        alert('Please enter a valid email address.');
+        input.focus();
+        input.style.borderColor = 'var(--color-error)';
+        setTimeout(() => input.style.borderColor = '', 2000);
         return;
       }
 
-      // Week 4: Replace with Mailchimp API POST
-      console.log('Email signup:', email);
-
-      // Placeholder confirmation
+      // Week 4: Replace this block with POST /api/signup → Mailchimp
+      console.log('Email signup (not yet wired):', email);
       input.value = '';
+
       const btn = document.querySelector('.cta-form button');
       if (btn) {
-        btn.textContent = '✓ Subscribed!';
-        btn.style.background = '#e8f5e9';
-        btn.style.color = '#2e7d32';
+        btn.textContent = '✓ You\'re on the list!';
+        btn.style.background = 'var(--color-success)';
+        btn.style.color = 'white';
         setTimeout(() => {
-          btn.textContent = 'Subscribe';
+          btn.textContent = 'Join Waitlist';
           btn.style.background = '';
           btn.style.color = '';
-        }, 3000);
+        }, 4000);
       }
 
-      // Track GA4 event
       if (typeof gtag !== 'undefined') {
         gtag('event', 'email_signup', { source: 'homepage_cta' });
       }
