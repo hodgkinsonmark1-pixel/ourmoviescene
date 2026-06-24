@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     // Cache at the edge for 60s, serve stale up to 5 min while revalidating —
     // keeps the site fast and reduces load on Airtable's API
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=30');
 
     return res.status(200).json({ records: allRecords });
 
