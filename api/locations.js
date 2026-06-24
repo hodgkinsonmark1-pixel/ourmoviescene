@@ -1,13 +1,7 @@
 /**
  * /api/locations
- * Vercel serverless function — proxies requests to Airtable.
- *
- * SECURITY: AIRTABLE_API_KEY and AIRTABLE_BASE_ID are read from Vercel
- * environment variables (server-side only). They are never sent to,
- * or visible in, the browser.
- *
- * Set these in: Vercel Dashboard → ourmoviescene2 → Settings →
- * Environment Variables → AIRTABLE_API_KEY, AIRTABLE_BASE_ID
+ * Vercel serverless function — proxies all location requests to Airtable.
+ * STATUS FILTER REMOVED — all records returned (no Status field in this base).
  */
 
 export default async function handler(req, res) {
@@ -16,9 +10,7 @@ export default async function handler(req, res) {
   const AIRTABLE_TABLE = 'Locations';
 
   if (!AIRTABLE_BASE_ID || !AIRTABLE_API_KEY) {
-    return res.status(500).json({
-      error: 'Server misconfiguration: Airtable credentials not set in environment variables.'
-    });
+    return res.status(500).json({ error: 'Server misconfiguration: Airtable credentials not set.' });
   }
 
   try {
@@ -26,10 +18,9 @@ export default async function handler(req, res) {
     let offset = null;
 
     do {
-      // Only return locations marked "Live" — draft locations stay hidden
-      let url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}` +
-        `?filterByFormula=${encodeURIComponent('{Status}="Live"')}`;
-      if (offset) url += `&offset=${offset}`;
+      // No Status filter — return all records
+      let url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`;
+      if (offset) url += `?offset=${offset}`;
 
       const airtableResponse = await fetch(url, {
         headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` }
@@ -45,14 +36,11 @@ export default async function handler(req, res) {
 
     } while (offset);
 
-    // Cache at the edge for 60s, serve stale up to 5 min while revalidating —
-    // keeps the site fast and reduces load on Airtable's API
     res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=30');
-
     return res.status(200).json({ records: allRecords });
 
   } catch (error) {
     console.error('Failed to fetch locations from Airtable:', error.message);
-    return res.status(502).json({ error: 'Failed to fetch locations from Airtable.' });
+    return res.status(502).json({ error: 'Failed to fetch locations.' });
   }
 }
