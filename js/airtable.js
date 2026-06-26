@@ -128,6 +128,7 @@ function normaliseRecord(record) {
     tier:               tierNum,
     viabilityScore:     f['Viability Score'] || 0,
     featured:           f['Featured'] === true || f['Featured'] === 1,
+    featuredOrder:      parseInt(f['Featured Order']) || 999,
     published:          f['Published'] === true || f['Published'] === 1,
     accessibility:      f['Accessibility'] || '',
     locationQuality:    f['Location Quality'] || '',

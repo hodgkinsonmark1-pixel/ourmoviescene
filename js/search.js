@@ -56,8 +56,10 @@ window.OMS.getDifficulties = function(locations) {
  *   3. If still not enough, fill with whatever is left
  */
 window.OMS.getFeaturedLocations = function(locations, count = 6) {
-  // First: explicitly featured locations
-  const featured = locations.filter(l => l.featured);
+  // First: explicitly featured locations, sorted by Featured Order field
+  const featured = locations
+    .filter(l => l.featured)
+    .sort((a, b) => a.featuredOrder - b.featuredOrder);
 
   if (featured.length >= count) {
     return featured.slice(0, count);
