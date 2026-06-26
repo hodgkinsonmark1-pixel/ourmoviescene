@@ -232,7 +232,10 @@
   <!-- STICKY HEADER -->
   <header class="site-header">
     <div class="container">
-      <a href="/" class="site-logo" aria-label="OurMovieScene home">🎬 OurMovieScene</a>
+      <a href="/" class="site-logo" aria-label="OurMovieScene home">
+        <img class="site-logo-img" alt="OurMovieScene" />
+        <span class="site-logo-text">🎬 OurMovieScene</span>
+      </a>
       <nav class="site-nav" aria-label="Main navigation">
         <div class="nav-links" style="display:flex;gap:24px;">
           <a href="map.html" style="color:var(--color-accent);font-weight:600;">Explore</a>
@@ -316,7 +319,10 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="site-logo">🎬 OurMovieScene</a>
+          <a href="/" class="site-logo">
+            <img class="site-logo-img" alt="OurMovieScene" />
+            <span class="site-logo-text">🎬 OurMovieScene</span>
+          </a>
           <p>The verified, ad-free, community-driven guide to Harry Potter UK filming locations.</p>
           <span class="footer-badge">Ad-free &bull; Always</span>
         </div>
@@ -492,5 +498,6 @@
     document.addEventListener('DOMContentLoaded', initMapPage);
   </script>
 
+  <script src="js/logo.js"></script>
 </body>
 </html>

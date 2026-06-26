@@ -101,16 +101,46 @@ h1, h2, h3, h4, h5 {
 }
 
 .site-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.site-logo:hover { opacity: 0.85; }
+
+/* Actual logo image — hidden until JS loads the URL */
+.site-logo-img {
+  display: none;
+  height: auto;
+  max-width: 180px;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Text fallback — shown until logo image loads */
+.site-logo-text {
   font-family: var(--font-heading);
   font-size: 1.4rem;
   color: white;
-  text-decoration: none;
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+  white-space: nowrap;
 }
 
-.site-logo:hover { color: var(--color-accent); }
+.footer-brand .site-logo-text { color: white; }
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+  .site-logo-img { max-width: 150px; }
+  .site-logo-text { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .site-logo-img { max-width: 120px; }
+  .site-logo-text { font-size: 1rem; }
+}
 
 .site-nav {
   display: flex;
@@ -952,7 +982,8 @@ button.location-link:hover {
   margin-bottom: var(--space-xl);
 }
 
-.footer-brand .site-logo { color: white; margin-bottom: var(--space-sm); display: inline-block; }
+.footer-brand .site-logo { margin-bottom: var(--space-sm); display: inline-flex; }
+.footer-brand .site-logo-img { max-width: 140px; filter: brightness(0) invert(1); } /* white version in dark footer */
 
 .footer-brand p {
   font-size: var(--text-sm);
