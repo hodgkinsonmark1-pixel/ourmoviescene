@@ -127,6 +127,8 @@ function normaliseRecord(record) {
     difficulty:         difficultyLabel,
     tier:               tierNum,
     viabilityScore:     f['Viability Score'] || 0,
+    featured:           f['Featured'] === true || f['Featured'] === 1,
+    published:          f['Published'] === true || f['Published'] === 1,
     accessibility:      f['Accessibility'] || '',
     locationQuality:    f['Location Quality'] || '',
     what3words:         f['What3Words'] || '',

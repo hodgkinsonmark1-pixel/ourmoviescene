@@ -49,16 +49,30 @@ window.OMS.getDifficulties = function(locations) {
 };
 
 /**
- * Get featured locations — for MVP returns first 6 Live locations
- * In future: could be most viewed, newest, manually curated, etc.
+ * Get featured locations for the homepage grid.
+ * Priority order:
+ *   1. Records with Featured = true (up to count)
+ *   2. If fewer than count are flagged, fill remaining slots with Tier 1 locations
+ *   3. If still not enough, fill with whatever is left
  */
 window.OMS.getFeaturedLocations = function(locations, count = 6) {
-  // Tier 1 first, then by name
-  const sorted = [...locations].sort((a, b) => {
-    if (a.tier !== b.tier) return a.tier - b.tier;
-    return a.name.localeCompare(b.name);
-  });
-  return sorted.slice(0, count);
+  // First: explicitly featured locations
+  const featured = locations.filter(l => l.featured);
+
+  if (featured.length >= count) {
+    return featured.slice(0, count);
+  }
+
+  // Fill remaining slots — Tier 1 first, then others, excluding already-featured
+  const featuredIds = new Set(featured.map(l => l.id));
+  const rest = locations
+    .filter(l => !featuredIds.has(l.id))
+    .sort((a, b) => {
+      if (a.tier !== b.tier) return a.tier - b.tier;
+      return a.name.localeCompare(b.name);
+    });
+
+  return [...featured, ...rest].slice(0, count);
 };
 
 /**
